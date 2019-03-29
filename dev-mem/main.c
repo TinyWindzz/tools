@@ -33,9 +33,9 @@ int main(int argc, char **argv)
     int fd;
 
     if (argc != 3) {
-	    printf("Usage: ./dev-mem [start] [length]\n");
+        printf("Usage: ./dev-mem [start] [length]\n");
         printf("NOTICE: [start] must be aligned in page size!\n");
-	    return 0;
+        return 0;
     }
 
     start = strtol(argv[1], NULL, 0);
@@ -48,7 +48,7 @@ int main(int argc, char **argv)
     map_base = mmap(NULL, length, PROT_READ|PROT_WRITE, MAP_SHARED, fd, start);
     if (!map_base) {
         printf("map error\n");
-	    return -1;
+        return -1;
     }
 
     /* printf mem */
