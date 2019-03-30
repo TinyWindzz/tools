@@ -1,0 +1,7 @@
+wget -c https://ohse.de/uwe/releases/lrzsz-0.12.20.tar.gz
+
+CFLAGS=-static CFLAGS=-O2 CC=arm-linux-gcc ./configure
+
+make
+
+#out: src/lrz src/lsz
