@@ -1,3 +1,4 @@
+#Build _install
 export ARCH=arm64
 export CROSS_COMPILE=aarch64-XXXX-linux-gnu-
 
@@ -7,3 +8,7 @@ Busybox Settings
         —>[*] Build BusyBox as a static binary (no shared libs)
 
 make;make install
+
+#make _rootfs
+cp build_rootfs.sh _install/
+./build_rootfs.sh
