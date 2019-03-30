@@ -8,6 +8,8 @@
 #include<sys/mman.h>
 #include<fcntl.h>
 
+#define ALIGN 0x1000
+
 void dump_mem(char *addr, unsigned int start, unsigned int length)
 {
     unsigned int cur = start;
@@ -24,7 +26,7 @@ void dump_mem(char *addr, unsigned int start, unsigned int length)
 }
 
 /*
- *  TODO: add write function and remove duplicate print
+ *  TODO: add write function and increase friendliness
  */
 int main(int argc, char **argv)
 {
@@ -33,8 +35,8 @@ int main(int argc, char **argv)
     int fd;
 
     if (argc != 3) {
-        printf("Usage: ./dev-mem [start] [length]\n");
-        printf("NOTICE: [start] must be aligned in page size!\n");
+        printf("Usage: ./dev-mem [addr] [length]\n");
+        printf("Notice: [addr] must be aligned in word size!\n");
         return 0;
     }
 
@@ -45,14 +47,15 @@ int main(int argc, char **argv)
     if (fd < 0)
         return -1;
 
-    map_base = mmap(NULL, length, PROT_READ|PROT_WRITE, MAP_SHARED, fd, start);
+    map_base = mmap(NULL, length + start % ALIGN, PROT_READ|PROT_WRITE,
+                    MAP_SHARED, fd, start / ALIGN * ALIGN);
     if (!map_base) {
         printf("map error\n");
         return -1;
     }
 
     /* printf mem */
-    dump_mem(map_base, start, length);
+    dump_mem(map_base + start % ALIGN, start, length);
 
     close(fd);
     munmap(map_base, 0xff);
