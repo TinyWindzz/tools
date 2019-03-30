@@ -1,0 +1,15 @@
+dpkg -i scrt-8.3.1-1537.ubuntu16-64.x86_64.deb
+
+perl securecrt_linux_crack.pl /usr/bin/SecureCRT
+
+#Then you got those
+root@frank:/home/frank/Downloads/scrt8.5# perl securecrt_linux_crack.pl /usr/bin/SecureCRT
+crack successful
+
+License:
+
+	Name:		xiaobo_l
+	Company:	www.boll.me
+	Serial Number:	03-91-324785
+	License Key:	AC33SN 4JHKFS 48KYUT MY8F24 AAKC1C HJYFXT 8P6S99 MRAUQ2
+	Issue Date:	02-12-2019
