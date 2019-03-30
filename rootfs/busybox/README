@@ -1,0 +1,9 @@
+export ARCH=arm64
+export CROSS_COMPILE=aarch64-XXXX-linux-gnu-
+
+make menuconfig
+Busybox Settings
+    —>Build Options
+        —>[*] Build BusyBox as a static binary (no shared libs)
+
+make;make install
