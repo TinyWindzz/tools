@@ -1,0 +1,9 @@
+fb-test tool
+-full framebuffer with one color
+
+Usage:
+./fb-test 0xE0EEE0
+
+fb-util
+-forked from https://github.com/prpplague/fb-test-app.git
+
