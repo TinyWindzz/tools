@@ -26,4 +26,21 @@ index b2526dac2fcf..ab91b83b55cf 100644
 
         leds {
 
-
+hdmi how to:
+#driver/media/cec/
+insmod cec.ko
+#driver/gpu/drm
+insmod drm_panel_orientation_quirks.ko
+insmod drm.ko
+insmod drm_kms_helper.ko
+#driver/gpu/drm/sun4i
+insmod sun4i-drm-hdmi.ko
+#driver/gpu/drm/brige/synopsys/
+insmod dw-hdmi.ko
+#driver/gpu/drm/sun4i
+insmod sun8i_tcon_top.ko
+insmod sun4i-tcon.ko
+insmod sun4i-frontend.ko
+insmod sun4i-drm.ko
+insmod sun8i-drm-hdmi.ko
+insmod sun8i-mixer.ko
