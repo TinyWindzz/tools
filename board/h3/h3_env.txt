@@ -1,0 +1,49 @@
+u-boot
+------
+-make CROSS_COMPILE=arm-none-eabi- nanopi_m1_defconfig
+-make CROSS_COMPILE=arm-none-eabi- -j8
+
+-apt-get install swig
+-apt install python-dev
+
+-dd if=u-boot-sunxi-with-spl.bin of=/dev/sdc bs=1024 seek=8
+
+-setenv bootcmd "ext4load mmc 0:1 46000000 zImage;ext4load mmc 0:1 47000000 sun8i-h3-nanopi-m1.dtb;bootz 46000000 0:0 47000000"
+-setenv bootargs "root=/dev/mmcblk1p2 rw console=ttyS0,115200"
+-saveenv
+
+update kernel
+-------------
+-git remote add tuna https://mirrors.tuna.tsinghua.edu.cn/git/linux.git
+-git fetch tuna
+
+kernel
+------
+-make ARCH=arm sunxi_defconfig
+-make ARCH=arm CROSS_COMPILE=arm-none-eabi-
+-make ARCH=arm CROSS_COMPILE=arm-none-eabi- dtbs
+
+kernel patch
+------------
+diff --git a/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi b/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi
+index 4df29a65316d..c4d82256a111 100644
+--- a/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi
++++ b/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi
+@@ -55,6 +55,12 @@
+
+        chosen {
+                stdout-path = "serial0:115200n8";
++               bootargs = "root=/dev/mmcblk0p1 console=ttyS0,115200n8 loglevel=8 rootwait";
++       };
++
++       memory@40000000 {
++               device_type = "memory";
++               reg = <0x40000000 0x40000000>;
+        };
+
+        leds {
+
+resource
+---------
+http://linux-sunxi.org/H3
+https://github.com/friendlyarm/toolchain_h3_linux-4.x
