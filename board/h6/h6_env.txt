@@ -3,7 +3,7 @@ picocom -b 115200 /dev/ttyUSB0
 
 uboot命令：
 ext4load mmc 0 0x40080000 orangepi3/Image;
-ext4load mmc 0 0x44000000 orangepi3/sun50i-h6-orangepi-one-plus.dtb;
+ext4load mmc 0 0x44000000 orangepi3/sun50i-h6-orangepi-3.dtb;
 booti 0x40080000 - 0x44000000
 密码：orangepi
 
