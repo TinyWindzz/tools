@@ -1,0 +1,4 @@
+gcc -fPIC -shared test.c -o libtest.so
+gcc main.c -L. -ltest -o test
+export LD_LIBRARY_PATH=.
+./test
