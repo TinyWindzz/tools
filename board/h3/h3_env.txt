@@ -9,7 +9,7 @@ u-boot
 -dd if=u-boot-sunxi-with-spl.bin of=/dev/sdc bs=1024 seek=8
 
 -setenv bootcmd "ext4load mmc 0:1 46000000 zImage;ext4load mmc 0:1 47000000 sun8i-h3-nanopi-m1.dtb;bootz 46000000 0:0 47000000"
--setenv bootargs "root=/dev/mmcblk1p2 rw console=ttyS0,115200"
+-setenv bootargs "root=/dev/mmcblk0p1 rw console=ttyS0,115200 rootwait"
 -saveenv
 
 update kernel
@@ -22,26 +22,6 @@ kernel
 -make ARCH=arm sunxi_defconfig
 -make ARCH=arm CROSS_COMPILE=arm-none-eabi-
 -make ARCH=arm CROSS_COMPILE=arm-none-eabi- dtbs
-
-kernel patch
-------------
-diff --git a/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi b/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi
-index 4df29a65316d..c4d82256a111 100644
---- a/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi
-+++ b/arch/arm/boot/dts/sun8i-h3-nanopi.dtsi
-@@ -55,6 +55,12 @@
-
-        chosen {
-                stdout-path = "serial0:115200n8";
-+               bootargs = "root=/dev/mmcblk0p1 console=ttyS0,115200n8 loglevel=8 rootwait";
-+       };
-+
-+       memory@40000000 {
-+               device_type = "memory";
-+               reg = <0x40000000 0x40000000>;
-        };
-
-        leds {
 
 resource
 ---------
