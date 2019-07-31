@@ -4,27 +4,9 @@ picocom -b 115200 /dev/ttyUSB0
 uboot命令：
 ext4load mmc 0 0x40080000 orangepi3/Image;
 ext4load mmc 0 0x44000000 orangepi3/sun50i-h6-orangepi-3.dtb;
+setenv bootargs = "earlycon=uart8250,mmio32,0x05000000 root=/dev/mmcblk0p1 console=ttyS0,115200n8 loglevel=8 rootwait"
 booti 0x40080000 - 0x44000000
 密码：orangepi
-
-内核补丁：
-diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
-index b2526dac2fcf..ab91b83b55cf 100644
---- a/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
-+++ b/arch/arm64/boot/dts/allwinner/sun50i-h6-orangepi.dtsi
-@@ -20,6 +20,12 @@
-
-        chosen {
-                stdout-path = "serial0:115200n8";
-+               bootargs = "earlycon=uart8250,mmio32,0x05000000 root=/dev/mmcblk0p1 console=ttyS0,115200n8 loglevel=8 rootwait";
-+       };
-+
-+       memory@40000000 {
-+               device_type = "memory";
-+               reg = <0x40000000 0x40000000>;
-        };
-
-        leds {
 
 hdmi how to:
 #driver/media/cec/
