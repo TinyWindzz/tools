@@ -1,4 +1,4 @@
-### huanjingzhunbei
+### 环境准备
 
 #### Compile U-Boot
 
@@ -48,11 +48,12 @@ dd if=uboot.img of=/dev/sdb seek=16384
 
 First sector (2048-62914559, default 2048): 80960
 Last sector, +sectors or +size{K,M,G,T,P} (80960-62914559, default 62914559):
-zhizuofenqvdeshihou,jideyuliuzhegekongjian!
+制作分区的时候，注意留这个空间！！！
 ```
 
+### boot kernel
 
-
+```
 You can use picocom:
 picocom -b 1500000 /dev/ttyUSB0
 
@@ -67,7 +68,6 @@ ext4load mmc 0 0x02080000 nanopi-neo4/Image;
 ext4load mmc 0 0x01f00000 nanopi-neo4/rk3399-nanopi-neo4.dtb;
 setenv bootargs "earlyprintk swiotlb=1 root=/dev/mmcblk2p1 rw rootwait"
 booti 0x02080000 - 0x01f00000
-
-
+```
 
 doc/README.rockchip
