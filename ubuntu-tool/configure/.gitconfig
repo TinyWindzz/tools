@@ -1,0 +1,12 @@
+[user]
+        name = Yangtao Li
+        email = tiny.windzz@gmail.com
+[alias]
+        co = checkout
+        br = branch
+        ci = commit
+        st = status
+        f  = format-patch
+        sm = send-email
+[core]
+        editor = vim
