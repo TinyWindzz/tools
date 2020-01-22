@@ -1,3 +1,15 @@
+### 环境准备
+
+```
+atf:
+make CROSS_COMPILE=aarch64-linux-gnu- PLAT=sun50i_h6 DEBUG=1 bl31
+
+uboot:
+export BL31=/path/to/bl31.bin
+make orangepi_one_plus_defconfig && make -j5 CROSS_COMPILE=aarch64-linux-gnu-
+dd if=u-boot-sunxi-with-spl.bin of=/dev/sdb bs=8k seek=1
+```
+
 ### 串口软件使用方法：
 
 ```shell
