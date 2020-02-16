@@ -51,6 +51,21 @@ ext4load mmc 0 0x40080000 orangepi3/Image;
 ext4load mmc 0 0x44000000 orangepi3/sun50i-h6-orangepi-3.dtb;
 setenv bootargs = "earlycon=uart8250,mmio32,0x05000000 root=/dev/mmcblk0p1 console=ttyS0,115200n8 loglevel=8 rootwait"
 booti 0x40080000 - 0x44000000
+
+#重新挂载ubuntu
+mount -o rw,remount /dev/mmcblk0p1
+
+#qemu模拟a53
+qemu-system-aarch64 -machine virt -M virt -cpu cortex-a53 -nographic -smp 1 -m 256 -kernel ./Image  -hda ./rootfs.img -append "console=ttyAMA0 root=/dev/vda rw"
+
+#qemu模拟a57
+qemu-system-aarch64 -machine virt -M virt,gic_version=3 -cpu cortex-a57 -nographic -smp 2 -m 256 -kernel ./Image  -hda ./rootfs.img -append "console=ttyAMA0 root=/dev/vda rw"
+
+#启动kvm加速
+qemu-system-aarch64 -machine virt -M virt,accel=kvm -cpu cortex-a53 -nographic -smp 1 -m 256 -kernel ./Image  -hda ./rootfs.img -append "console=ttyAMA0 root=/dev/vda rw"
+
+#退出qemu
+crtl a + x
 ```
 
 ### 内核使用hdmi:
