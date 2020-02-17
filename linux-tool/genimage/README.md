@@ -7,12 +7,23 @@ apt install autoreconf libconfuse-dev
 make
 
 #mkimage
-mkdir root tmp
-./genimage/genimage --config genimage.cfg --inputpath ./
-rmdir root tmp
+mkdir root tmp;
+./genimage/genimage --config genimage.cfg --inputpath ./  ;
+rmdir root tmp;
 
-#dd
+#烧写 etcher: https://www.balena.io/etcher/
 time dd if=images/sdcard.img of=/dev/sdb
+
+#调整分区大小
+parted /dev/sdb
+#Change display unit to sectors: unit s
+(parted) p
+(parted) rm 1
+(parted) mkpart primary 1049kB -1
+(parted) p
+(parted) q
+e2fsck -f /dev/sdb1
+resize2fs /dev/sdb1
 ```
 
 genimage.cfg
@@ -35,4 +46,3 @@ image sdcard.img {
         }   
 }
 ```
-
