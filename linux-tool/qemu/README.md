@@ -51,7 +51,7 @@ brctl stp br0 off
 brctl delbr br0
 
 qemu:
--device virtio-net-device,netdev=qemunet0,mac=E0:FE:D0:3C:2E:EE -netdev tap,id=qemunet0,ifname=tap0
+-device virtio-net-device,netdev=qemunet0,mac=E0:FE:D0:3C:2E:EE -netdev tap,id=qemunet0,ifname=tap0,script=no,downscript=no
 
 guest:
 #同时设置默认网关为bridge设备的ip地址
@@ -62,7 +62,7 @@ ifconfig eth0 192.168.88.12
 route add default gw 192.168.88.1
 
 #开启virtualization选项
-qemu-system-aarch64 -machine virt -M virt,gic_version=3,virtualization=true,type=virt -cpu cortex-a57 -nographic -smp 4 -m 1024 -kernel ./Image  -hda ./rootfs.img -append "console=ttyAMA0 root=/dev/vda rw" -device virtio-net-device,netdev=qemunet0,mac=E0:FE:D0:3C:2E:EE -netdev tap,id=qemunet0,ifname=tap0
+qemu-system-aarch64 -machine virt -M virt,gic_version=3,virtualization=true,type=virt -cpu cortex-a57 -nographic -smp 4 -m 1024 -kernel ./Image  -hda ./rootfs.img -append "console=ttyAMA0 root=/dev/vda rw" -device virtio-net-device,netdev=qemunet0,mac=E0:FE:D0:3C:2E:EE -netdev tap,id=qemunet0,ifname=tap0,script=no,downscript=no
 
 #开启kvm选项
 qemu-system-aarch64 -machine virt -M virt,gic_version=3,accel=kvm -cpu cortex-a57 -nographic -smp 2 -m 256 -kernel ./Image  -hda ./rootfs.img -append "console=ttyAMA0 root=/dev/vda rw"
