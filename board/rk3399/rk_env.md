@@ -1,4 +1,4 @@
-### 环境准备
+## 环境准备
 
 #### Compile U-Boot
 
@@ -37,7 +37,7 @@ git clone https://github.com/rockchip-linux/rkbin.git
 => cat ../rkbin/bin/rk33/rk3399_miniloader_v1.24.bin >> idbloader.img
 ```
 
-#### dd
+### dd
 
 ```
 mmc or sdcard is ok!
@@ -68,6 +68,22 @@ ext4load mmc 0 0x02080000 nanopi-neo4/Image;
 ext4load mmc 0 0x01f00000 nanopi-neo4/rk3399-nanopi-neo4.dtb;
 setenv bootargs "earlyprintk swiotlb=1 root=/dev/mmcblk2p1 rw rootwait"
 booti 0x02080000 - 0x01f00000
+
+#for net
+ifconfig eth0 192.168.1.18
+route add default gw 192.168.1.1
+```
+
+### KO
+
+```
+#ths
+drivers/thermal/rockchip_thermal.ko
+
+#net
+drivers/net/ethernet/stmicro/stmmac/stmmac.ko
+drivers/net/ethernet/stmicro/stmmac/stmmac-platform.ko
+drivers/net/ethernet/stmicro/stmmac/dwmac-rk.ko
 ```
 
 doc/README.rockchip
