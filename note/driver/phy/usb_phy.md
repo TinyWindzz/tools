@@ -65,6 +65,6 @@ phy_ctrl看不到控制了哪些寄存器
 		return -EINVAL;
 	}
 
-分析一下sun4i_usb_phy0_id_vbus_det_scan这个函数
+分析一下sun4i_usb_phy0_id_vbus_det_scan、sun4i_usb_phy_init和probe函数
 ```
 
