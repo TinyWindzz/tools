@@ -1,3 +1,5 @@
+[TOC]
+
 ## 环境准备
 
 #### Compile U-Boot

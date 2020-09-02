@@ -66,5 +66,6 @@ phy_ctrl看不到控制了哪些寄存器
 	}
 
 分析一下sun4i_usb_phy0_id_vbus_det_scan、sun4i_usb_phy_init和probe函数
+作为device要配置哪些寄存器
 ```
 
