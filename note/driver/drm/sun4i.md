@@ -28,11 +28,25 @@ obj-$(CONFIG_DRM_SUN8I_TCON_TOP) += sun8i_tcon_top.o
 ```
 ## 主要组件
 
-### tcon top
+### sun8i mixer
+
+#### sun8i ui
+
+sun8i_ui_layer_atomic_update
+
+#### sun8i vi
+
+sun8i_vi_layer_atomic_update
+
+### sun4i tcon top
 
 export hdmi源、de源选择接口，初始化时钟、reset，提供tcon-tv0、tcon-tv1、dsi时钟。
 
 目前有r40、h6支持了tcon top。
+
+### sun4i tcon
+
+### sun4i crtc
 
 ## 部分流程
 
@@ -58,6 +72,14 @@ drm_crtc_helper_funcs
 ```
 
 研究以下这几个API：
+
+of_graph_get_endpoint_by_regs
+
+of_graph_get_remote_endpoint
+
+of_graph_parse_endpoint
+
+
 
 of_graph_get_port_by_id
 
