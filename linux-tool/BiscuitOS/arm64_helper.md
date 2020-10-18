@@ -17,9 +17,6 @@ BiscuitOS linux-5.0-aarch Usermanual
 >
 > - [Running BiscuitOS with NetWorking](#A7)
 
----------------------------------
-<span id="A0"></span>
-
 ## Build Linux Kernel
 
 ```
@@ -34,11 +31,8 @@ make ARCH=arm64 menuconfig
 
 make ARCH=arm64 CROSS_COMPILE=/home/frank/Desktop/BiscuitOS/output/linux-5.0-aarch/aarch64-linux-gnu/aarch64-linux-gnu/bin/aarch64-linux-gnu- Image -j4
 make ARCH=arm64 CROSS_COMPILE=/home/frank/Desktop/BiscuitOS/output/linux-5.0-aarch/aarch64-linux-gnu/aarch64-linux-gnu/bin/aarch64-linux-gnu- modules -j4
-make ARCH=arm64 INSTALL_MOD_PATH=/home/frank/Desktop/BiscuitOS/output/linux-5.0-aarch/rootfs/rootfs/ modules_install
+sudo make ARCH=arm64 INSTALL_MOD_PATH=/home/frank/Desktop/BiscuitOS/output/linux-5.0-aarch/rootfs/rootfs/ modules_install
 ```
-
----------------------------------
-<span id="A1"></span>
 
 ## Build Busybox
 
@@ -55,18 +49,12 @@ make CROSS_COMPILE=/home/frank/Desktop/BiscuitOS/output/linux-5.0-aarch/aarch64-
 
 make CROSS_COMPILE=/home/frank/Desktop/BiscuitOS/output/linux-5.0-aarch/aarch64-linux-gnu/aarch64-linux-gnu/bin/aarch64-linux-gnu- install
 ```
----------------------------------
-<span id="A2"></span>
-
 ## Re-Build Rootfs
 
 ```
 cd /home/frank/Desktop/BiscuitOS/output/linux-5.0-aarch
 ./RunBiscuitOS.sh pack
 ```
----------------------------------
-<span id="A3"></span>
-
 ## Mount a Freeze Disk
 
 ```
@@ -75,18 +63,12 @@ cd /home/frank/Desktop/BiscuitOS/output/linux-5.0-aarch
 cd /home/frank/Desktop/BiscuitOS/output/linux-5.0-aarch/FreezeDir
 ```
 
----------------------------------
-<span id="A4"></span>
-
 ## Un-mount a Freeze Disk
 
 ```
 cd /home/frank/Desktop/BiscuitOS/output/linux-5.0-aarch
 ./RunBiscuitOS.sh umount
 ```
-
----------------------------------
-<span id="A5"></span>
 
 ## Running BiscuitOS
 
@@ -106,9 +88,6 @@ If you want exit from BiscuitOS, pls use: Ctrl-A + X
 cd /home/frank/Desktop/BiscuitOS/output/linux-5.0-aarch
 ./RunBiscuitOS.sh net
 ```
-
----------------------------------
-<span id="A6"></span>
 
 ## Debuging BiscuitOS
 
