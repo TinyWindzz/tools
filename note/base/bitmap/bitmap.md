@@ -21,6 +21,15 @@ bitmap_zero		//清零操作
 bitmap_fill 	//填充操作
 ```
 
+## 遍历
+
+```c
+for_each_clear_bit_from		//从指定位置遍历 bitmap 清零 bit
+for_each_clear_bit			//从头开始遍历 bitmap 清零 bit
+for_each_set_bit			//从头开始遍历 bitmap 置位 bit
+for_each_set_bit_from		//从指定位置开始遍历 bitmap 置位 bit
+```
+
 
 
 ## Bitops API
