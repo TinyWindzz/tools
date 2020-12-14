@@ -43,7 +43,7 @@ sudo apt install libcap-ng-dev flex bison libncurses-dev libssl-dev
 
 #### linux-5.0 for arm64
 
-ubuntu需要使用qemu5.x以上版本
+ubuntu20需要使用qemu5.x以上版本
 
 ```c
 diff --git a/configs/linux-5.0-arm64_defconfig b/configs/linux-5.0-arm64_defconfig
@@ -87,5 +87,21 @@ Blog:
 由于未做裁减，需要把root.img改大。把RunBiscuitOS.sh中ROOTFS_SIZE=1024改为合适大小。
 ```
 
-#### linux-5.0 for x64
+###  guest 与 host数据互通
 
+```shell
+#guest kernel：
+CONFIG_NET_9P=y
+CONFIG_NET_9P_VIRTIO=y
+# CONFIG_NET_9P_DEBUG is not set
+CONFIG_9P_FS=y
+# CONFIG_9P_FS_POSIX_ACL is not set
+# CONFIG_9P_FS_SECURITY is not set
+
+#qemu：
+-fsdev local,security_model=passthrough,id=fsdev0,path=/tmp/share
+-device virtio-9p-device,id=fs0,fsdev=fsdev0,mount_tag=hostshare
+
+#guest：
+mount -t 9p -o trans=virtio,version=9p2000.L hostshare /tmp
+```
