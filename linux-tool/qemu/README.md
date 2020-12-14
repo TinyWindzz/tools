@@ -1,13 +1,21 @@
+[TOC]
+
 # 基于QEMU搭建虚拟化实验环境
 
-```shell
-#编译XEN
-make -j8 dist-xen XEN_TARGET_ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu-
+## 编译
 
-#获取ubuntu rottfs
+```shell
+#编译qemu
+wget https://download.qemu.org/qemu-4.1.0.tar.xz
+./configure --target-list=aarch64-softmmu 或 ./configure --target-list=arm-softmmu
+
+#获取ubuntu rootfs
 wget https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-arm64.img
 重命名为ubuntu.qcow2
+```
+## 启动
 
+```shell
 qemu-system-aarch64 \
    -M virt,gic_version=3,virtualization=true,type=virt \
    -cpu cortex-a57 -nographic -smp 4 -m 8800 \
@@ -15,10 +23,22 @@ qemu-system-aarch64 \
    -drive if=none,file=ubuntu.qcow2,format=qcow2,id=hd0 -device virtio-blk-device,drive=hd0 \
    -netdev user,id=hostnet0,hostfwd=tcp::2222-:22 -device virtio-net-device,netdev=hostnet0
 
-#编译qemu
-wget https://download.qemu.org/qemu-4.1.0.tar.xz 
-./configure --target-list=aarch64-softmmu 或 ./configure --target-list=arm-softmmu
+#退出qemu
+crtl a + x
+kill -9 $(ps -a | grep qemu | awk '{print $1}')
 ```
+
+## kvm参数
+
+```shell
+#开启virtualization选项
+qemu-system-aarch64 -machine virt -M virt,gic_version=3,virtualization=true,type=virt -cpu cortex-a57 -nographic -smp 4 -m 1024 -kernel ./Image  -hda ./rootfs.img -append "console=ttyAMA0 root=/dev/vda rw" -device virtio-net-device,netdev=qemunet0,mac=E0:FE:D0:3C:2E:EE -netdev tap,id=qemunet0,ifname=tap0,script=no,downscript=no
+
+#开启kvm选项
+qemu-system-aarch64 -machine virt -M virt,gic_version=3,accel=kvm -cpu cortex-a57 -nographic -smp 2 -m 256 -kernel ./Image  -hda ./rootfs.img -append "console=ttyAMA0 root=/dev/vda rw"
+```
+
+## guest 与 host网络互通（guest上网）
 
 https://cloud.tencent.com/developer/article/1493252
 
@@ -60,16 +80,25 @@ guest:
 #guest端设备ip地址保证跟bridge设备在同一个网段
 ifconfig eth0 192.168.88.12
 route add default gw 192.168.88.1
+```
 
-#开启virtualization选项
-qemu-system-aarch64 -machine virt -M virt,gic_version=3,virtualization=true,type=virt -cpu cortex-a57 -nographic -smp 4 -m 1024 -kernel ./Image  -hda ./rootfs.img -append "console=ttyAMA0 root=/dev/vda rw" -device virtio-net-device,netdev=qemunet0,mac=E0:FE:D0:3C:2E:EE -netdev tap,id=qemunet0,ifname=tap0,script=no,downscript=no
+## guest 与 host数据互通（9p fs）
 
-#开启kvm选项
-qemu-system-aarch64 -machine virt -M virt,gic_version=3,accel=kvm -cpu cortex-a57 -nographic -smp 2 -m 256 -kernel ./Image  -hda ./rootfs.img -append "console=ttyAMA0 root=/dev/vda rw"
+```shell
+#guest kernel：
+CONFIG_NET_9P=y
+CONFIG_NET_9P_VIRTIO=y
+# CONFIG_NET_9P_DEBUG is not set
+CONFIG_9P_FS=y
+# CONFIG_9P_FS_POSIX_ACL is not set
+# CONFIG_9P_FS_SECURITY is not set
 
-#退出qemu
-crtl a + x
-kill -9 $(ps -a | grep qemu | awk '{print $1}')
+#qemu：
+-fsdev local,security_model=passthrough,id=fsdev0,path=/tmp/share
+-device virtio-9p-device,id=fs0,fsdev=fsdev0,mount_tag=hostshare
+
+#guest：
+mount -t 9p -o trans=virtio,version=9p2000.L hostshare /tmp
 ```
 
 
